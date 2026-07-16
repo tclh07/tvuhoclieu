@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tài liệu mới & nổi bật - TVU HọcLiệu</title>
+<link rel="icon" href="anh/logo-icon.png">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link href="styles.css" rel="stylesheet">
+</head>
+<body class="page-tailieu">
+<nav class="navbar navbar-expand-lg sticky-top py-2">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2 flex-shrink-0" href="index.html">
+      <img class="brand-logo" src="anh/logo-tvu.svg" alt="TVU HọcLiệu">
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <i class="bi bi-list fs-2"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">Khám phá</a>
+          <ul class="dropdown-menu mega-menu">
+            <li><a class="mega-item" href="danh-muc.html"><span class="mega-ic" style="background:linear-gradient(135deg,var(--coral),#4E97DA)"><i class="bi bi-grid-1x2-fill"></i></span><span><span class="fw-semibold d-block">Danh mục tài liệu</span><small>Trắc nghiệm, giáo trình, sách...</small></span></a></li>
+            <li><a class="mega-item" href="tai-lieu.html"><span class="mega-ic" style="background:linear-gradient(135deg,var(--teal),#5FA8E0)"><i class="bi bi-fire"></i></span><span><span class="fw-semibold d-block">Tài liệu mới &amp; nổi bật</span><small>Cập nhật &amp; tải nhiều nhất</small></span></a></li>
+            <li><a class="mega-item" href="nganh-hoc.html"><span class="mega-ic" style="background:linear-gradient(135deg,var(--grape),#5B79C2)"><i class="bi bi-diagram-3-fill"></i></span><span><span class="fw-semibold d-block">Theo chuyên ngành</span><small>CNTT, Kinh tế, Y - Dược...</small></span></a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="goc-sinh-vien.html">Góc sinh viên</a></li>
+        <li class="nav-item"><a class="nav-link" href="ve-chung-toi.html">Về chúng tôi</a></li>
+      </ul>
+      <div class="navbar-actions d-flex align-items-center gap-2 flex-shrink-0">
+        <button class="nav-search-btn" data-open-search type="button" title="Tìm kiếm" aria-label="Tìm kiếm">
+          <i class="bi bi-search"></i>
+        </button>
+        <a href="#" class="btn btn-ghost" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-person me-1"></i>Đăng nhập</a>
+        <a href="#" class="btn btn-coral" data-bs-toggle="modal" data-bs-target="#uploadModal"><i class="bi bi-cloud-arrow-up me-1"></i>Tải lên</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<header class="hero" style="padding:56px 0 40px">
+  <div class="blob" style="width:240px;height:240px;background:var(--teal);top:-70px;left:-90px"></div>
+  <div class="blob" style="width:190px;height:190px;background:var(--amber);bottom:-50px;left:24%"></div>
+  <div class="container position-relative text-center" style="z-index:1">
+    <span class="sec-tag">Mới cập nhật</span>
+    <h1 class="mt-2" style="font-size:clamp(2rem,4.5vw,3rem)">Tài liệu mới &amp; nổi bật</h1>
+    <p class="lead mx-auto" style="max-width:560px">Những tài liệu của Đại học Trà Vinh được cập nhật mới nhất và tải nhiều nhất tuần qua. Lọc theo loại để tìm nhanh hơn.</p>
+  </div>
+</header>
+<section class="container py-4" id="docs">
+  <!-- dải mảnh: chỉ hiện khi có bộ lọc/từ khóa đang áp dụng (từ overlay) -->
+  <div class="filter-strip" id="filterStrip" style="display:none">
+    <span class="fs-count"><i class="bi bi-collection-fill"></i> <span id="fsCount">Tất cả tài liệu</span></span>
+    <div class="fs-chips" id="fsChips"></div>
+    <button class="fs-search-btn" data-open-search type="button"><i class="bi bi-search"></i> Tìm nhanh</button>
+  </div>
+  <!-- filter -->
+  <ul class="nav filter-pills mb-4 reveal">
+    <li><a class="nav-link active" href="#">Tất cả</a></li>
+    <li><a class="nav-link" href="#">Trắc nghiệm</a></li>
+    <li><a class="nav-link" href="#">Tự luận</a></li>
+    <li><a class="nav-link" href="#">Giáo trình</a></li>
+    <li><a class="nav-link" href="#">Sách</a></li>
+    <li><a class="nav-link" href="#">Chuyên ngành</a></li>
+  </ul>
+
+  <div class="row g-4" id="docGrid">
+    <!-- card -->
+    <div class="col-sm-6 col-lg-3 reveal">
+      <div class="doc-card" data-nganh="khac" data-nam="2024 - 2025">
+        <div class="doc-cover" style="background:linear-gradient(135deg,var(--coral),#4E97DA)">
+          <img class="doc-thumb" src="anh/a7.jpg" alt="Bìa: 500 câu trắc nghiệm Triết học Mác-Lênin có đáp án" loading="lazy">
+          <div class="pat"></div>
+          <span class="doc-type">Trắc nghiệm</span>
+        </div>
+        <div class="doc-body">
+          <h6>300 câu trắc nghiệm Triết học Mác-Lênin có đáp án</h6>
+          <div class="doc-meta"><i class="bi bi-building"></i> Khoa Lý luận chính trị</div>
+          <div class="doc-foot">
+            <div class="d-flex gap-3">
+              <span class="doc-stat"><i class="bi bi-download"></i> 4.2K</span>
+              <span class="doc-stat"><i class="bi bi-star-fill" style="color:var(--amber)"></i> 4.9</span>
+            </div>
+            <div class="d-flex gap-1"><button class="btn btn-report btn-preview" data-bs-toggle="modal" data-bs-target="#previewModal" title="Xem trước tài liệu"><i class="bi bi-eye"></i></button><button class="btn btn-report btn-rate" data-bs-toggle="modal" data-bs-target="#rateModal" title="Đánh giá tài liệu"><i class="bi bi-star"></i></button><button class="btn btn-report" data-bs-toggle="modal" data-bs-target="#reportModal" title="Báo cáo tài liệu"><i class="bi bi-flag"></i></button><button class="btn btn-mini"><i class="bi bi-download"></i></button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-3 reveal">
+      <div class="doc-card" data-nganh="khac" data-nam="2024 - 2025">
+        <div class="doc-cover" style="background:linear-gradient(135deg,var(--teal),#5FA8E0)">
+          <img class="doc-thumb" src="anh/a6.jpg" alt="Bìa: Đề thi cuối kỳ Vi Tích Phân A1 — Tổng hợp 2020–2024" loading="lazy">
+          <div class="pat"></div>
+          <span class="doc-type">Tự luận</span>
+        </div>
+        <div class="doc-body">
+          <h6>Đề thi cuối kỳ Vi Tích Phân A1 — Tổng hợp 2020–2024</h6>
+          <div class="doc-meta"><i class="bi bi-building"></i> Khoa Khoa học Cơ bản</div>
+          <div class="doc-foot">
+            <div class="d-flex gap-3">
+              <span class="doc-stat"><i class="bi bi-download"></i> 3.8K</span>
+              <span class="doc-stat"><i class="bi bi-star-fill" style="color:var(--amber)"></i> 4.8</span>
+            </div>
+            <div class="d-flex gap-1"><button class="btn btn-report btn-preview" data-bs-toggle="modal" data-bs-target="#previewModal" title="Xem trước tài liệu"><i class="bi bi-eye"></i></button><button class="btn btn-report btn-rate" data-bs-toggle="modal" data-bs-target="#rateModal" title="Đánh giá tài liệu"><i class="bi bi-star"></i></button><button class="btn btn-report" data-bs-toggle="modal" data-bs-target="#reportModal" title="Báo cáo tài liệu"><i class="bi bi-flag"></i></button><button class="btn btn-mini"><i class="bi bi-download"></i></button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-3 reveal">
+      <div class="doc-card" data-nganh="kinhte" data-nam="2023 - 2024">
+        <div class="doc-cover" style="background:linear-gradient(135deg,var(--grape),#5B79C2)">
+          <img class="doc-thumb" src="anh/a2.jpg" alt="Bìa: Giáo trình Kinh tế Vi mô — Slide bài giảng đầy đủ" loading="lazy">
+          <div class="pat"></div>
+          <span class="doc-type">Giáo trình</span>
+        </div>
+        <div class="doc-body">
+          <h6>Giáo trình Kinh tế Vi mô — Slide bài giảng đầy đủ</h6>
+          <div class="doc-meta"><i class="bi bi-building"></i> Trường Kinh tế, Luật</div>
+          <div class="doc-foot">
+            <div class="d-flex gap-3">
+              <span class="doc-stat"><i class="bi bi-download"></i> 5.1K</span>
+              <span class="doc-stat"><i class="bi bi-star-fill" style="color:var(--amber)"></i> 4.9</span>
+            </div>
+            <div class="d-flex gap-1"><button class="btn btn-report btn-preview" data-bs-toggle="modal" data-bs-target="#previewModal" title="Xem trước tài liệu"><i class="bi bi-eye"></i></button><button class="btn btn-report btn-rate" data-bs-toggle="modal" data-bs-target="#rateModal" title="Đánh giá tài liệu"><i class="bi bi-star"></i></button><button class="btn btn-report" data-bs-toggle="modal" data-bs-target="#reportModal" title="Báo cáo tài liệu"><i class="bi bi-flag"></i></button><button class="btn btn-mini"><i class="bi bi-download"></i></button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-3 reveal">
+      <div class="doc-card" data-nganh="cntt" data-nam="2024 - 2025">
+        <div class="doc-cover" style="background:linear-gradient(135deg,var(--sky),#90C4F2)">
+          <img class="doc-thumb" src="anh/a1.jpg" alt="Bìa: Cấu trúc dữ liệu &amp; Giải thuật — Tài liệu CNTT" loading="lazy">
+          <div class="pat"></div>
+          <span class="doc-type">Chuyên ngành</span>
+        </div>
+        <div class="doc-body">
+          <h6>Cấu trúc dữ liệu & Giải thuật — Tài liệu CNTT</h6>
+          <div class="doc-meta"><i class="bi bi-building"></i> Trường Kỹ thuật &amp; Công nghệ</div>
+          <div class="doc-foot">
+            <div class="d-flex gap-3">
+              <span class="doc-stat"><i class="bi bi-download"></i> 6.4K</span>
+              <span class="doc-stat"><i class="bi bi-star-fill" style="color:var(--amber)"></i> 5.0</span>
+            </div>
+            <div class="d-flex gap-1"><button class="btn btn-report btn-preview" data-bs-toggle="modal" data-bs-target="#previewModal" title="Xem trước tài liệu"><i class="bi bi-eye"></i></button><button class="btn btn-report btn-rate" data-bs-toggle="modal" data-bs-target="#rateModal" title="Đánh giá tài liệu"><i class="bi bi-star"></i></button><button class="btn btn-report" data-bs-toggle="modal" data-bs-target="#reportModal" title="Báo cáo tài liệu"><i class="bi bi-flag"></i></button><button class="btn btn-mini"><i class="bi bi-download"></i></button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-3 reveal">
+      <div class="doc-card" data-nganh="kinhte" data-nam="2022 - 2023">
+        <div class="doc-cover" style="background:linear-gradient(135deg,var(--amber),#EFC56F)">
+          <img class="doc-thumb" src="anh/a5.jpg" alt="Bìa: Nguyên lý Kế toán — Sách điện tử bản đầy đủ" loading="lazy">
+          <div class="pat"></div>
+          <span class="doc-type">Sách</span>
+        </div>
+        <div class="doc-body">
+          <h6>Nguyên lý Kế toán — Sách điện tử bản đầy đủ</h6>
+          <div class="doc-meta"><i class="bi bi-building"></i> Trường Kinh tế, Luật</div>
+          <div class="doc-foot">
+            <div class="d-flex gap-3">
+              <span class="doc-stat"><i class="bi bi-download"></i> 2.9K</span>
+              <span class="doc-stat"><i class="bi bi-star-fill" style="color:var(--amber)"></i> 4.7</span>
+            </div>
+            <div class="d-flex gap-1"><button class="btn btn-report btn-preview" data-bs-toggle="modal" data-bs-target="#previewModal" title="Xem trước tài liệu"><i class="bi bi-eye"></i></button><button class="btn btn-report btn-rate" data-bs-toggle="modal" data-bs-target="#rateModal" title="Đánh giá tài liệu"><i class="bi bi-star"></i></button><button class="btn btn-report" data-bs-toggle="modal" data-bs-target="#reportModal" title="Báo cáo tài liệu"><i class="bi bi-flag"></i></button><button class="btn btn-mini"><i class="bi bi-download"></i></button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-3 reveal">
+      <div class="doc-card" data-nganh="khac" data-nam="2023 - 2024">
+        <div class="doc-cover" style="background:linear-gradient(135deg,var(--rose),#8FB4E2)">
+          <img class="doc-thumb" src="anh/a8.jpg" alt="Bìa: Ngân hàng câu hỏi Tư tưởng Hồ Chí Minh" loading="lazy">
+          <div class="pat"></div>
+          <span class="doc-type">Trắc nghiệm</span>
+        </div>
+        <div class="doc-body">
+          <h6>Ngân hàng câu hỏi Tư tưởng Hồ Chí Minh</h6>
+          <div class="doc-meta"><i class="bi bi-building"></i> Khoa Lý luận chính trị</div>
+          <div class="doc-foot">
+            <div class="d-flex gap-3">
+              <span class="doc-stat"><i class="bi bi-download"></i> 3.3K</span>
+              <span class="doc-stat"><i class="bi bi-star-fill" style="color:var(--amber)"></i> 4.8</span>
+            </div>
+            <div class="d-flex gap-1"><button class="btn btn-report btn-preview" data-bs-toggle="modal" data-bs-target="#previewModal" title="Xem trước tài liệu"><i class="bi bi-eye"></i></button><button class="btn btn-report btn-rate" data-bs-toggle="modal" data-bs-target="#rateModal" title="Đánh giá tài liệu"><i class="bi bi-star"></i></button><button class="btn btn-report" data-bs-toggle="modal" data-bs-target="#reportModal" title="Báo cáo tài liệu"><i class="bi bi-flag"></i></button><button class="btn btn-mini"><i class="bi bi-download"></i></button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-3 reveal">
+      <div class="doc-card" data-nganh="khac" data-nam="2022 - 2023">
+        <div class="doc-cover" style="background:linear-gradient(135deg,var(--teal-dark),var(--teal))">
+          <img class="doc-thumb" src="anh/a3.jpg" alt="Bìa: Vật lý Đại cương 2 — Giáo trình + bài tập" loading="lazy">
+          <div class="pat"></div>
+          <span class="doc-type">Giáo trình</span>
+        </div>
+        <div class="doc-body">
+          <h6>Vật lý Đại cương 2 — Giáo trình + bài tập</h6>
+          <div class="doc-meta"><i class="bi bi-building"></i> Khoa Khoa học Cơ bản</div>
+          <div class="doc-foot">
+            <div class="d-flex gap-3">
+              <span class="doc-stat"><i class="bi bi-download"></i> 2.1K</span>
+              <span class="doc-stat"><i class="bi bi-star-fill" style="color:var(--amber)"></i> 4.6</span>
+            </div>
+            <div class="d-flex gap-1"><button class="btn btn-report btn-preview" data-bs-toggle="modal" data-bs-target="#previewModal" title="Xem trước tài liệu"><i class="bi bi-eye"></i></button><button class="btn btn-report btn-rate" data-bs-toggle="modal" data-bs-target="#rateModal" title="Đánh giá tài liệu"><i class="bi bi-star"></i></button><button class="btn btn-report" data-bs-toggle="modal" data-bs-target="#reportModal" title="Báo cáo tài liệu"><i class="bi bi-flag"></i></button><button class="btn btn-mini"><i class="bi bi-download"></i></button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-3 reveal">
+      <div class="doc-card" data-nganh="yduoc" data-nam="2024 - 2025">
+        <div class="doc-cover" style="background:linear-gradient(135deg,#1565C0,var(--grape))">
+          <img class="doc-thumb" src="anh/a4.jpg" alt="Bìa: Giải phẫu học — Tài liệu ngành Y khoa" loading="lazy">
+          <div class="pat"></div>
+          <span class="doc-type">Chuyên ngành</span>
+        </div>
+        <div class="doc-body">
+          <h6>Giải phẫu học — Tài liệu ngành Y khoa</h6>
+          <div class="doc-meta"><i class="bi bi-building"></i> Trường Y Dược</div>
+          <div class="doc-foot">
+            <div class="d-flex gap-3">
+              <span class="doc-stat"><i class="bi bi-download"></i> 4.7K</span>
+              <span class="doc-stat"><i class="bi bi-star-fill" style="color:var(--amber)"></i> 4.9</span>
+            </div>
+            <div class="d-flex gap-1"><button class="btn btn-report btn-preview" data-bs-toggle="modal" data-bs-target="#previewModal" title="Xem trước tài liệu"><i class="bi bi-eye"></i></button><button class="btn btn-report btn-rate" data-bs-toggle="modal" data-bs-target="#rateModal" title="Đánh giá tài liệu"><i class="bi bi-star"></i></button><button class="btn btn-report" data-bs-toggle="modal" data-bs-target="#reportModal" title="Báo cáo tài liệu"><i class="bi bi-flag"></i></button><button class="btn btn-mini"><i class="bi bi-download"></i></button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- empty state: hiện khi lọc/tìm không ra kết quả -->
+  <div class="empty-state" id="emptyState" style="display:none">
+    <svg class="empty-art" viewBox="0 0 240 180" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Không có kết quả">
+      <circle cx="118" cy="88" r="66" fill="#E8EEF6"/>
+      <circle cx="118" cy="88" r="66" fill="none" stroke="#C9D7EA" stroke-width="1.5" stroke-dasharray="3 8"/>
+      <rect x="72" y="40" width="74" height="94" rx="9" fill="#fff" stroke="#C9D7EA" stroke-width="2" transform="rotate(-9 109 87)"/>
+      <g transform="rotate(5 118 94)">
+        <path d="M82 50h44l20 20v60a8 8 0 0 1-8 8H82a8 8 0 0 1-8-8V58a8 8 0 0 1 8-8z" fill="#fff" stroke="#1B2A4A" stroke-width="2.5"/>
+        <path d="M126 50l20 20h-16a4 4 0 0 1-4-4V50z" fill="#F7A823"/>
+        <rect x="86" y="86" width="46" height="5" rx="2.5" fill="#D7DEEA"/>
+        <rect x="86" y="100" width="36" height="5" rx="2.5" fill="#D7DEEA"/>
+        <rect x="86" y="114" width="44" height="5" rx="2.5" fill="#D7DEEA"/>
+      </g>
+      <g transform="translate(0 2)">
+        <circle cx="152" cy="112" r="25" fill="#fff" stroke="#0046AD" stroke-width="5"/>
+        <circle cx="152" cy="112" r="25" fill="#0046AD" opacity="0.06"/>
+        <path d="M143 104a13 13 0 0 1 9-5" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+        <line x1="171" y1="131" x2="187" y2="149" stroke="#0046AD" stroke-width="8" stroke-linecap="round"/>
+      </g>
+    </svg>
+    <h5>Chưa tìm thấy tài liệu phù hợp</h5>
+    <p>Không có kết quả cho <strong id="emptyQuery"></strong>. Thử từ khoá khác hoặc bỏ bớt bộ lọc.</p>
+    <button class="btn btn-coral" id="emptyReset" type="button"><i class="bi bi-arrow-counterclockwise me-2"></i>Xem tất cả tài liệu</button>
+  </div>
+</section>
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <a class="navbar-brand d-flex align-items-center gap-2 mb-3" href="index.html">
+          <img class="brand-logo" src="anh/logo-tvu-white.svg" alt="TVU HọcLiệu">
+        </a>
+        <p style="color:rgba(255,255,255,.6);max-width:320px">Kho học liệu dùng chung của Đại học Trà Vinh, đồng hành cùng sinh viên TVU trên hành trình chinh phục tri thức.</p>
+        <div class="d-flex gap-2 mt-3">
+          <a href="#" class="foot-social"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="foot-social"><i class="bi bi-youtube"></i></a>
+          <a href="#" class="foot-social"><i class="bi bi-tiktok"></i></a>
+          <a href="#" class="foot-social"><i class="bi bi-envelope-fill"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6 class="mb-3">Danh mục</h6>
+        <ul class="list-unstyled d-grid gap-2">
+          <li><a href="danh-muc.html">Đề trắc nghiệm</a></li>
+          <li><a href="danh-muc.html">Đề tự luận</a></li>
+          <li><a href="danh-muc.html">Giáo trình</a></li>
+          <li><a href="danh-muc.html">Sách tham khảo</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6 class="mb-3">Khám phá</h6>
+        <ul class="list-unstyled d-grid gap-2">
+          <li><a href="tai-lieu.html">Tài liệu mới</a></li>
+          <li><a href="goc-sinh-vien.html">Góc sinh viên</a></li>
+          <li><a href="index.html">Xếp hạng tuần</a></li>
+          <li><a href="nganh-hoc.html">Theo ngành</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <h6 class="mb-3">Nhận tài liệu mới mỗi tuần</h6>
+        <p style="color:rgba(255,255,255,.6)">Đăng ký để không bỏ lỡ đề thi và giáo trình mới nhất.</p>
+        <div class="search-wrap" style="box-shadow:none;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)">
+          <input type="email" placeholder="Email của bạn..." style="color:#fff">
+          <button class="btn btn-coral">Đăng ký</button>
+        </div>
+      </div>
+    </div>
+    <hr style="border-color:rgba(255,255,255,.12);margin:2.5rem 0 1.2rem">
+    <div class="d-flex flex-wrap justify-content-between align-items-center" style="color:rgba(255,255,255,.55);font-size:.88rem">
+      <span>© 2026 HọcLiệu. Tài liệu chia sẻ vì cộng đồng sinh viên.</span>
+      <div class="d-flex gap-3 mt-2 mt-md-0">
+        <a href="#">Điều khoản</a><a href="#">Bảo mật</a><a href="#">Liên hệ</a><a href="admin.html">Quản trị</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<div class="modal fade" id="uploadModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+    <div class="modal-content hl-modal upload-modal">
+      <div class="modal-header">
+        <div>
+          <h5 class="modal-title"><i class="bi bi-cloud-arrow-up-fill"></i> Tải tài liệu lên</h5>
+          <p class="um-sub">Chia sẻ tài liệu để giúp cộng đồng sinh viên TVU học tốt hơn</p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+      </div>
+      <div class="modal-body">
+        <div class="um-form">
+          <div class="um-section" style="margin-top:0">1 — Chọn tệp <span class="um-req">*</span></div>
+          <label class="um-drop" for="umFile">
+            <i class="bi bi-cloud-arrow-up-fill"></i>
+            <p>Kéo tệp vào đây hoặc <span style="color:var(--coral);font-weight:600">chọn từ máy tính</span></p>
+            <small>PDF, DOCX, PPTX, XLSX — tối đa 50 MB</small>
+            <input type="file" id="umFile" hidden>
+          </label>
+          <div class="um-section">2 — Thông tin tài liệu <span class="opt">(bắt buộc)</span></div>
+          <div class="mb-3">
+            <label class="um-label">Tên tài liệu <span class="um-req">*</span></label>
+            <input type="text" class="form-control" placeholder="Vd: 500 câu trắc nghiệm Triết học Mác-Lênin có đáp án">
+          </div>
+          <div class="row g-3 mb-3">
+            <div class="col-md-6"><label class="um-label">Loại tài liệu <span class="um-req">*</span></label><select class="form-select"><option value=''>Chọn loại...</option><option>Đề thi trắc nghiệm</option><option>Đề thi tự luận</option><option>Giáo trình / Slide</option><option>Sách tham khảo</option><option>Tài liệu chuyên ngành</option><option>Đồ án / Tiểu luận</option></select></div>
+            <div class="col-md-6"><label class="um-label">Năm học <span class="um-req">*</span></label><select class="form-select"><option value=''>Chọn năm...</option><option>2024 - 2025</option><option>2023 - 2024</option><option>2022 - 2023</option><option>2021 - 2022</option><option>2020 - 2021</option></select></div>
+          </div>
+          <div class="row g-3 mb-3">
+            <div class="col-md-6"><label class="um-label">Trường / Khoa <span class="um-req">*</span></label><select class="form-select"><option value=''>Chọn trường / khoa...</option><option>Trường Kinh tế, Luật</option><option>Trường Kỹ thuật &amp; Công nghệ</option><option>Trường Y Dược</option><option>Trường NN-VH-NT Khmer Nam Bộ &amp; Nhân văn</option><option>Khoa Nông nghiệp - Thủy sản</option><option>Bộ môn Hóa - Sinh</option><option>Khoa Khoa học Cơ bản</option></select></div>
+            <div class="col-md-6"><label class="um-label">Ngành học <span class="um-req">*</span></label><select class="form-select"><option value=''>Chọn ngành...</option><option>Công nghệ thông tin</option><option>Kinh tế</option><option>Kỹ thuật</option><option>Y - Dược</option><option>Luật</option><option>Sư phạm</option><option>Ngoại ngữ</option><option>Cơ Khí</option></select></div>
+          </div>
+          <div class="mb-3">
+            <label class="um-label">Tên môn học <span class="um-req">*</span></label>
+            <input type="text" class="form-control" placeholder="Vd: Triết học Mác-Lênin, Vi Tích Phân A1, Lập trình C++...">
+          </div>
+          <div class="um-section">3 — Thông tin thêm <span class="opt">(không bắt buộc)</span></div>
+          <div class="mb-1">
+            <label class="um-label">Mô tả ngắn</label>
+            <textarea class="form-control" rows="2" placeholder="Tóm tắt nội dung, ghi chú để người tải hiểu rõ hơn..."></textarea>
+          </div>
+          <div class="um-section">4 — Xác nhận</div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="umAgree" style="margin-top:.25rem">
+            <label class="form-check-label" for="umAgree" style="font-size:.88rem;color:var(--ink-soft)">Tôi xác nhận tài liệu này không vi phạm bản quyền và phù hợp để chia sẻ trong cộng đồng sinh viên TVU.</label>
+          </div>
+        </div>
+        <div class="um-success" style="display:none">
+          <div class="um-ic"><i class="bi bi-check-lg"></i></div>
+          <h5>Đã gửi tài liệu! 🎉</h5>
+          <p>Tài liệu của bạn đang chờ kiểm duyệt và sẽ hiển thị công khai sau khi được duyệt. Cảm ơn bạn đã đóng góp!</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <span class="um-note"><i class="bi bi-info-circle"></i> Hiển thị sau khi được kiểm duyệt</span>
+        <div class="um-foot-actions d-flex gap-2">
+          <button class="btn btn-ghost" data-bs-dismiss="modal">Hủy</button>
+          <button class="btn btn-coral" type="button" onclick="hlFakeUpload()"><i class="bi bi-send me-1"></i>Gửi tài liệu</button>
+        </div>
+        <button class="btn btn-coral um-foot-done" type="button" data-bs-dismiss="modal" style="display:none">Xong</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="reportModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content hl-modal report-modal">
+      <div class="modal-header">
+        <div>
+          <h5 class="modal-title"><i class="bi bi-flag-fill"></i> Báo cáo tài liệu</h5>
+          <p class="um-sub">Giúp chúng tôi giữ kho tài liệu sạch và đúng nội dung</p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+      </div>
+      <div class="modal-body">
+        <label class="um-label">Lý do báo cáo</label>
+        <label class="report-reason"><input type="radio" name="rpr"> Nội dung sai lệch / không đúng</label>
+        <label class="report-reason"><input type="radio" name="rpr"> Trùng lặp với tài liệu khác</label>
+        <label class="report-reason"><input type="radio" name="rpr"> Vi phạm bản quyền</label>
+        <label class="report-reason"><input type="radio" name="rpr"> Nội dung không phù hợp / spam</label>
+        <label class="report-reason"><input type="radio" name="rpr"> Lý do khác</label>
+        <div class="mt-2">
+          <label class="um-label">Mô tả thêm (không bắt buộc)</label>
+          <textarea class="form-control" rows="2" placeholder="Mô tả cụ thể vấn đề bạn gặp..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <span class="um-note"><i class="bi bi-shield-check"></i> Báo cáo của bạn được ẩn danh</span>
+        <button class="btn btn-ghost" data-bs-dismiss="modal">Hủy</button>
+        <button class="btn btn-coral" type="button" onclick="hlFakeReport()"><i class="bi bi-flag me-1"></i>Gửi báo cáo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content hl-modal">
+      <div class="modal-header">
+        <div>
+          <h5 class="modal-title auth-title"><i class="bi bi-person-circle"></i> Đăng nhập</h5>
+          <p class="um-sub auth-sub">Đăng nhập để tải tài liệu và tích điểm đóng góp</p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+      </div>
+      <div class="modal-body">
+        <div class="auth-switch">
+          <span class="auth-switch-pill" aria-hidden="true"></span>
+          <button type="button" class="auth-switch-btn active" data-auth="login">Đăng nhập</button>
+          <button type="button" class="auth-switch-btn" data-auth="register">Đăng ký</button>
+        </div>
+
+        <!-- TAB ĐĂNG NHẬP -->
+        <div class="auth-panel" data-panel="login">
+          <button type="button" class="btn-google" onclick="hlGoogleAuth('login')">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg>
+            Đăng nhập với Google
+          </button>
+          <div class="auth-or"><span>hoặc dùng email</span></div>
+          <div class="mb-3"><label class="um-label">Email sinh viên</label><input type="email" class="form-control" placeholder="mssv@st.tvu.edu.vn"></div>
+          <div class="mb-2"><label class="um-label">Mật khẩu</label><input type="password" class="form-control" placeholder="••••••••"></div>
+          <div class="d-flex justify-content-between align-items-center">
+            <label style="font-size:.85rem;color:var(--ink-soft)"><input type="checkbox" style="accent-color:var(--coral);vertical-align:-1px"> Ghi nhớ đăng nhập</label>
+            <a href="#" style="font-size:.85rem;color:var(--coral);text-decoration:none">Quên mật khẩu?</a>
+          </div>
+          <button class="btn btn-coral w-100 mt-3" type="button" onclick="hlFakeLogin()"><i class="bi bi-box-arrow-in-right me-1"></i>Đăng nhập</button>
+        </div>
+
+        <!-- TAB ĐĂNG KÝ -->
+        <div class="auth-panel" data-panel="register" hidden>
+          <button type="button" class="btn-google" onclick="hlGoogleAuth('register')">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg>
+            Đăng ký với Google
+          </button>
+          <div class="auth-or"><span>hoặc dùng email</span></div>
+          <div class="mb-3"><label class="um-label">Họ và tên</label><input type="text" class="form-control" placeholder="Nguyễn Văn A"></div>
+          <div class="mb-3"><label class="um-label">Email sinh viên</label><input type="email" class="form-control" placeholder="mssv@st.tvu.edu.vn"></div>
+          <div class="mb-3"><label class="um-label">Mật khẩu</label><input type="password" class="form-control" placeholder="Tối thiểu 8 ký tự"></div>
+          <div class="mb-2"><label class="um-label">Nhập lại mật khẩu</label><input type="password" class="form-control" placeholder="••••••••"></div>
+          <label style="font-size:.85rem;color:var(--ink-soft);display:flex;gap:.45rem;align-items:flex-start;margin-top:.5rem"><input type="checkbox" style="accent-color:var(--coral);margin-top:.2rem;flex-shrink:0"> Tôi đồng ý với điều khoản sử dụng của HọcLiệu</label>
+          <button class="btn btn-coral w-100 mt-3" type="button" onclick="hlFakeLogin()"><i class="bi bi-person-plus me-1"></i>Tạo tài khoản</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="rateModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content hl-modal">
+      <div class="modal-header">
+        <div>
+          <h5 class="modal-title"><i class="bi bi-star-fill"></i> Đánh giá tài liệu</h5>
+          <p class="um-sub">Đánh giá giúp tài liệu hay được nhiều người thấy hơn</p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p style="color:var(--ink-soft);font-size:.92rem;margin-bottom:.4rem">Bạn thấy tài liệu này thế nào?</p>
+        <div class="rate-stars" id="rateStars">
+          <i class="bi bi-star" data-v="1"></i><i class="bi bi-star" data-v="2"></i><i class="bi bi-star" data-v="3"></i><i class="bi bi-star" data-v="4"></i><i class="bi bi-star" data-v="5"></i>
+        </div>
+        <p id="rateLabel" style="color:var(--ink-soft);font-size:.9rem;min-height:1.3em;margin-bottom:1rem">Chạm vào sao để chọn</p>
+        <div class="text-start">
+          <label class="um-label">Nhận xét (không bắt buộc)</label>
+          <textarea class="form-control" rows="2" placeholder="Tài liệu có ích không? Có gì cần cải thiện?"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <span class="um-note"><i class="bi bi-people"></i> Đánh giá hiện cho cộng đồng</span>
+        <button class="btn btn-ghost" data-bs-dismiss="modal">Hủy</button>
+        <button class="btn btn-coral" type="button" onclick="hlFakeRate()"><i class="bi bi-send me-1"></i>Gửi đánh giá</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content hl-modal">
+      <div class="modal-header">
+        <div>
+          <h5 class="modal-title" id="pvTitle"><i class="bi bi-eye"></i> Xem trước tài liệu</h5>
+          <p class="um-sub" id="pvMeta">Bản xem trước nhanh trước khi tải</p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+      </div>
+      <div class="modal-body">
+        <div class="pv-doc">
+          <div class="pv-page">
+            <span class="pv-badge" id="pvBadge">PDF</span>
+            <div class="pv-line title"></div>
+            <div class="pv-line"></div>
+            <div class="pv-line"></div>
+            <div class="pv-line short"></div>
+            <div class="pv-line" style="margin-top:1.3rem"></div>
+            <div class="pv-line"></div>
+            <div class="pv-line short"></div>
+            <div class="pv-line"></div>
+            <div class="pv-line short"></div>
+          </div>
+          <div class="pv-fade"></div>
+          <div class="pv-lock"><i class="bi bi-lock-fill"></i> Đăng nhập để xem &amp; tải toàn bộ tài liệu</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <span class="um-note"><i class="bi bi-info-circle"></i> Bản demo — preview minh hoạ</span>
+        <button class="btn btn-ghost" data-bs-dismiss="modal">Đóng</button>
+        <button class="btn btn-coral" type="button"><i class="bi bi-download me-1"></i>Tải xuống</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ============ OVERLAY TÌM KIẾM (dùng chung) ============ -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-overlay-inner">
+    <div class="container position-relative">
+      <button class="so-close" type="button" title="Đóng (ESC)" aria-label="Đóng"><i class="bi bi-x-lg"></i></button>
+      <h5 class="so-title"><i class="bi bi-search"></i>Tìm tài liệu</h5>
+
+      <div class="overlay-search">
+        <i class="bi bi-search"></i>
+        <input type="text" id="soInput" placeholder="Nhập tên môn, từ khóa, mã tài liệu..." aria-label="Từ khóa tìm kiếm">
+        <button class="btn-filter" id="soFilterBtn" type="button"><i class="bi bi-sliders"></i> Lọc <span class="count">0</span></button>
+        <button class="btn-go" id="soGo" type="button">Tìm</button>
+      </div>
+
+      <div class="overlay-filter" id="soFilterPanel">
+        <div class="row g-3">
+          <div class="col-md-3">
+            <label class="ff-label">Ngành</label>
+            <select data-param="nganh" aria-label="Ngành">
+              <option value="">Tất cả ngành</option>
+              <option>Công nghệ thông tin</option><option>Kinh tế</option><option>Kỹ thuật</option>
+              <option>Y - Dược</option><option>Luật</option><option>Sư phạm</option>
+              <option>Ngôn ngữ Anh</option><option>Cơ Khí</option>
+              <option>Quản trị văn phòng</option><option>Chính trị học</option>
+              <option>Ngôn ngữ Trung</option><option>Công nghệ ô tô</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="ff-label">Trường / Khoa</label>
+            <select data-param="truong" aria-label="Trường / Khoa">
+              <option value="">Tất cả trường / khoa</option>
+              <option>Trường Kinh tế, Luật</option><option>Trường Kỹ thuật &amp; Công nghệ</option>
+              <option>Trường Y Dược</option><option>Trường NN-VH-NT Khmer Nam Bộ &amp; Nhân văn</option>
+              <option>Khoa Lý Luận Chính Trị</option><option>Khoa Khoa học Cơ bản</option>
+              <option>Khoa Nông Nghiệp-Thủy Sản</option><option>Khoa Logictics</option>
+              <option>Khoa Kinh Tế</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="ff-label">Năm học</label>
+            <select data-param="nam" aria-label="Năm học">
+              <option value="">Tất cả năm</option>
+              <option>2024 - 2025</option><option>2023 - 2024</option><option>2022 - 2023</option>
+              <option>2021 - 2022</option><option>2020 - 2021</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="ff-label">Loại tài liệu</label>
+            <select data-param="loai" aria-label="Loại tài liệu">
+              <option value="">Tất cả loại</option>
+              <option>Trắc nghiệm</option><option>Tự luận</option><option>Giáo trình</option>
+              <option>Sách</option><option>Chuyên ngành</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="overlay-suggest">
+        <div class="suggest-label"><i class="bi bi-fire" style="color:var(--amber)"></i>Đang tìm nhiều</div>
+        <div class="suggest-list">
+          <a class="suggest-item"><i class="bi bi-search"></i>Triết học Mác-Lênin</a>
+          <a class="suggest-item"><i class="bi bi-search"></i>Vi Tích Phân A1</a>
+          <a class="suggest-item"><i class="bi bi-search"></i>Kinh tế vi mô</a>
+          <a class="suggest-item"><i class="bi bi-search"></i>Lập trình C++</a>
+          <a class="suggest-item"><i class="bi bi-search"></i>Cấu trúc dữ liệu</a>
+          <a class="suggest-item"><i class="bi bi-search"></i>Tiếng Anh cơ sở</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="tvu-enhance.js"></script>
+<script src="tvu-search.js"></script>
+<script src="tai-lieu.js"></script>
+</body>
+</html>

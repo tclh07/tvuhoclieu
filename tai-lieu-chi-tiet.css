@@ -1,0 +1,46 @@
+  /* Trang chi tiết — style riêng cho khu vực xem tài liệu đầy đủ */
+  .doc-header{background:#fff;border-radius:22px;padding:1.75rem;box-shadow:var(--shadow);margin-bottom:1.5rem}
+  .doc-cover-lg{width:100%;aspect-ratio:16/10;border-radius:16px;overflow:hidden;position:relative;background:linear-gradient(135deg,var(--coral),var(--grape))}
+  .doc-cover-lg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .doc-meta-row{display:flex;flex-wrap:wrap;gap:1rem;color:var(--ink-soft);font-size:.92rem;margin:.5rem 0 1rem}
+  .doc-meta-row i{color:var(--coral);margin-right:.3rem}
+  .doc-actions{display:flex;flex-wrap:wrap;gap:.6rem}
+  /* Full viewer — chuỗi trang tài liệu, KHÔNG có lock overlay */
+  .full-viewer{background:#fff;border-radius:22px;padding:1.5rem;box-shadow:var(--shadow)}
+  .fv-toolbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.75rem;padding-bottom:1rem;margin-bottom:1rem;border-bottom:1px solid rgba(34,43,69,.08)}
+  .fv-title{font-family:'Baloo 2';font-weight:700;font-size:1.15rem;margin:0;display:flex;align-items:center;gap:.5rem}
+  .fv-title .pv-badge{position:static;font-size:.72rem}
+  .fv-frame-wrap{
+    border-radius:14px;overflow:hidden;
+    background:#f5f7fa;
+    border:1px solid rgba(34,43,69,.08);
+    min-height:70vh;
+  }
+  .fv-frame{
+    width:100%;height:78vh;min-height:520px;
+    border:0;display:block;background:#fff;
+  }
+  .fv-placeholder{
+    padding:3.5rem 2rem;text-align:center;color:var(--ink-soft);
+  }
+  .fv-placeholder .ph-ic{
+    font-size:4rem;color:rgba(0,70,173,.18);
+    margin-bottom:1rem;display:block;line-height:1;
+  }
+  .fv-placeholder h4{
+    font-family:'Baloo 2';font-weight:700;color:var(--ink);
+    margin-bottom:.6rem;font-size:1.25rem;
+  }
+  .fv-placeholder p{
+    max-width:520px;margin:0 auto .6rem;line-height:1.65;font-size:.94rem;
+  }
+  .fv-placeholder code{
+    background:rgba(0,70,173,.08);color:var(--coral);
+    padding:2px 7px;border-radius:5px;font-size:.86rem;
+    font-family:'Menlo','Consolas',monospace;
+  }
+  .fv-placeholder small{color:var(--ink-soft);font-size:.82rem}
+  .login-required{background:#fff;border-radius:22px;padding:3rem 2rem;box-shadow:var(--shadow);text-align:center;max-width:520px;margin:2rem auto}
+  .login-required .icon{font-size:3.5rem;color:var(--coral);margin-bottom:1rem}
+  .login-required h3{font-family:'Baloo 2';font-weight:700;margin-bottom:.7rem}
+  .login-required p{color:var(--ink-soft);margin-bottom:1.5rem}
