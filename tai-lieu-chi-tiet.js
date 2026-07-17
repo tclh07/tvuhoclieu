@@ -5,7 +5,7 @@
   //    https://drive.google.com/file/d/1AbC2xYz9-def_KpQ/view?usp=sharing
   //  thì DRIVE_FILE_ID = '1AbC2xYz9-def_KpQ'
   // ============================================================
-  var DRIVE_FILE_ID = '1tgNt6rij7SNTr9WGehwA7U13xy9ETP1R13xy9ETP1R';   // ← dán ID vào đây (giữa 2 dấu nháy)
+  var DRIVE_FILE_ID = '1tgNt6rij7SNTr9WGehwA7U13xy9ETP1R';   // ← dán ID vào đây (giữa 2 dấu nháy)
 
 
   // ---- Render iframe Google Drive hoặc placeholder khi chưa có ID ----
