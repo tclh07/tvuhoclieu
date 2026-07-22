@@ -825,3 +825,275 @@
     initCommon();
   }
 })();
+
+
+/**
+ * ============================================
+ *  WEBSITE SOURCE CODE PROTECTION
+ *  Chống xem source, chống copy, chống DevTools
+ * ============================================
+ *  Cách dùng: thêm vào cuối <body>
+ *  <script src="protect-source.js"></script>
+ *
+ *  Hoặc copy toàn bộ nội dung vào thẻ <script> trong HTML.
+ */
+
+
+
+//============================================================
+(function () {
+   // Bỏ qua bảo vệ nếu đang ở trang admin
+if (window.location.pathname.includes("admin")) return;
+  "use strict";
+
+  // =============================================
+  // 1. CHẶN CHUỘT PHẢI (Right-click)
+  // =============================================
+  document.addEventListener("contextmenu", function (e) {
+    e.preventDefault();
+    return false;
+  });
+
+  // =============================================
+  // 2. CHẶN PHÍM TẮT XEM SOURCE & DEVTOOLS
+  //    F12, Ctrl+U, Ctrl+Shift+I, Ctrl+Shift+J,
+  //    Ctrl+Shift+C, Ctrl+S, Ctrl+P, Ctrl+A
+  // =============================================
+  document.addEventListener("keydown", function (e) {
+    // F12 — Mở DevTools
+    if (e.key === "F12" || e.keyCode === 123) {
+      e.preventDefault();
+      return false;
+    }
+
+    if (e.ctrlKey || e.metaKey) {
+      // Ctrl+U — View Source
+      if (e.key === "u" || e.key === "U") {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+S — Save Page
+      if (e.key === "s" || e.key === "S") {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+P — Print (có thể xem source qua print)
+      if (e.key === "p" || e.key === "P") {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+A — Select All
+      if (e.key === "a" || e.key === "A") {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+C — Copy
+      if (e.key === "c" || e.key === "C") {
+        e.preventDefault();
+        return false;
+      }
+
+      if (e.shiftKey) {
+        // Ctrl+Shift+I — DevTools
+        if (e.key === "I" || e.key === "i") {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+Shift+J — Console
+        if (e.key === "J" || e.key === "j") {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+Shift+C — Inspect Element
+        if (e.key === "C" || e.key === "c") {
+          e.preventDefault();
+          return false;
+        }
+      }
+    }
+  });
+
+  // =============================================
+  // 3. CHẶN KÉO THẢ (Drag & Drop)
+  // =============================================
+  document.addEventListener("dragstart", function (e) {
+    e.preventDefault();
+    return false;
+  });
+
+  // =============================================
+  // 4. CHẶN CHỌN VĂN BẢN (Text Selection)
+  // =============================================
+  document.addEventListener("selectstart", function (e) {
+    e.preventDefault();
+    return false;
+  });
+
+  // CSS bổ trợ chống select
+  var style = document.createElement("style");
+  style.textContent =
+    "* { " +
+    "  -webkit-user-select: none !important; " +
+    "  -moz-user-select: none !important; " +
+    "  -ms-user-select: none !important; " +
+    "  user-select: none !important; " +
+    "  -webkit-touch-callout: none !important; " +
+    "} " +
+    "input, textarea, [contenteditable='true'] { " +
+    "  -webkit-user-select: text !important; " +
+    "  -moz-user-select: text !important; " +
+    "  -ms-user-select: text !important; " +
+    "  user-select: text !important; " +
+    "}";
+  document.head.appendChild(style);
+
+  // =============================================
+  // 5. CHẶN COPY / CUT / PASTE
+  // =============================================
+  ["copy", "cut", "paste"].forEach(function (evt) {
+    document.addEventListener(evt, function (e) {
+      e.preventDefault();
+      return false;
+    });
+  });
+
+  // =============================================
+  // 6. PHÁT HIỆN DEVTOOLS ĐANG MỞ
+  //    Redirect hoặc hiển thị cảnh báo
+  // =============================================
+  var devToolsOpen = false;
+
+  // Phương pháp 1: Dùng debugger statement
+  // (Khi DevTools mở, debugger sẽ pause execution)
+  function detectDevTools() {
+    var start = performance.now();
+    debugger; // eslint-disable-line no-debugger
+    var end = performance.now();
+    // Nếu thời gian > 100ms → DevTools đang mở
+    if (end - start > 100) {
+      if (!devToolsOpen) {
+        devToolsOpen = true;
+        onDevToolsDetected();
+      }
+    } else {
+      devToolsOpen = false;
+    }
+  }
+
+  // Phương pháp 2: Kiểm tra kích thước cửa sổ
+  // DevTools chiếm không gian → thay đổi kích thước
+  function checkWindowSize() {
+    var widthDiff = window.outerWidth - window.innerWidth;
+    var heightDiff = window.outerHeight - window.innerHeight;
+    // Ngưỡng 160px — khi DevTools dock bên cạnh
+    if (widthDiff > 160 || heightDiff > 160) {
+      if (!devToolsOpen) {
+        devToolsOpen = true;
+        onDevToolsDetected();
+      }
+    }
+  }
+
+  // Phương pháp 3: Console.log trick
+  // Khi DevTools mở, getter của object sẽ được gọi
+  var devToolsElement = new Image();
+  Object.defineProperty(devToolsElement, "id", {
+    get: function () {
+      devToolsOpen = true;
+      onDevToolsDetected();
+    },
+  });
+
+  function consoleCheck() {
+    devToolsOpen = false;
+    console.log("%c", devToolsElement);
+    console.clear();
+  }
+
+  // Hành động khi phát hiện DevTools
+  function onDevToolsDetected() {
+    // --- TÙY CHỌN 1: Hiển thị cảnh báo ---
+    // alert("Developer Tools đã bị chặn trên trang này!");
+
+    // --- TÙY CHỌN 2: Xóa nội dung trang ---
+    document.body.innerHTML =
+      '<div style="display:flex;align-items:center;justify-content:center;' +
+      "height:100vh;font-family:sans-serif;background:#111;color:#fff;" +
+      'font-size:24px;text-align:center;">' +
+      "<p>⚠️ Không được phép xem mã nguồn trang web này.</p></div>";
+
+    // --- TÙY CHỌN 3: Chuyển hướng trang ---
+    // window.location.href = "about:blank";
+  }
+
+  // Chạy kiểm tra định kỳ
+  setInterval(detectDevTools, 1000);
+  setInterval(checkWindowSize, 500);
+  setInterval(consoleCheck, 1000);
+
+  // =============================================
+  // 7. CHẶN IFRAME NHÚNG (Clickjacking Protection)
+  // =============================================
+  if (window.top !== window.self) {
+    window.top.location = window.self.location;
+  }
+
+  // =============================================
+  // 8. VÔ HIỆU HÓA console
+  // =============================================
+  var noop = function () {};
+  var methods = [
+    "log",
+    "debug",
+    "info",
+    "warn",
+    "error",
+    "table",
+    "trace",
+    "dir",
+    "group",
+    "groupCollapsed",
+    "groupEnd",
+    "time",
+    "timeEnd",
+    "profile",
+    "profileEnd",
+    "count",
+  ];
+
+  methods.forEach(function (method) {
+    if (typeof console[method] === "function") {
+      console[method] = noop;
+    }
+  });
+
+  // =============================================
+  // 9. CHẶN view-source:// PROTOCOL
+  //    (Thêm header phía server sẽ hiệu quả hơn)
+  // =============================================
+  if (
+    window.location.protocol === "view-source:" ||
+    window.location.href.indexOf("view-source:") !== -1
+  ) {
+    window.location.href = "about:blank";
+  }
+
+  // Thông báo trong console (trước khi vô hiệu hóa)
+  // để cảnh báo bất kỳ ai cố mở console
+  setTimeout(function () {
+    try {
+      console.log(
+        "%c⛔ DỪNG LẠI!",
+        "color:red;font-size:40px;font-weight:bold;"
+      );
+      console.log(
+        "%cĐây là tính năng dành cho nhà phát triển. " +
+          "Nếu ai đó bảo bạn sao chép/dán nội dung ở đây, " +
+          "đó là hành vi lừa đảo.",
+        "font-size:16px;"
+      );
+    } catch (e) {
+      /* ignore */
+    }
+  }, 100);
+})();
