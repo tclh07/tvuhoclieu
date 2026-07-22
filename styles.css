@@ -1,3 +1,18 @@
+/* ===== CHỐNG SELECT & COPY ===== */
+* {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+input, textarea, [contenteditable="true"] {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+}
+/* ================================ */
 :root{
   /* ===== Bảng màu thương hiệu Đại học Trà Vinh (TVU) =====
      Navy (chủ đạo) · Vàng gold · Xanh lá · Xanh dương sáng
